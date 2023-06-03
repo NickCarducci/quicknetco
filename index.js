@@ -158,6 +158,11 @@ attach
 
     const plaidClient = new PlaidApi(configuration);
 
+    RESSEND(res, {
+      statusCode,
+      statusText,
+      plaidClient
+    });
     const response = await plaidClient
       .createLinkToken({
         user: {
