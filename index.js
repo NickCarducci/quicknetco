@@ -173,10 +173,10 @@ attach
         }
       })
       .catch((e) => {
-        standardCatch(res, e, {}, "setup intents (create callback)");
+        standardCatch(res, e, {}, "link token (create callback)");
       });
 
-    if (!linkResponse)
+    if (!linkResponse.data)
       return RESSEND(res, {
         statusCode,
         statusText,
