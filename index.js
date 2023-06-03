@@ -4,13 +4,7 @@ require("dotenv").config();
 
 const OAuthClient = require("intuit-oauth"),
   port = 8080,
-  allowedOrigins = [
-    "https://sausage.saltbank.org",
-    "https://i7l8qe.csb.app",
-    "https://vau.money",
-    "https://jwi5k.csb.app",
-    "https://se1dt7.csb.app"
-  ], //Origin: <scheme>://<hostname>:<port>
+  allowedOrigins = ["https://quick.net.co", "https://se1dt7.csb.app"], //Origin: <scheme>://<hostname>:<port>
   RESSEND = (res, e) => {
     res.send(e);
     //res.end();
@@ -77,14 +71,8 @@ const OAuthClient = require("intuit-oauth"),
   fetch = require("node-fetch"),
   express = require("express"),
   app = express(),
-  fill = express.Router(),
-  issue = express.Router(),
   attach = express.Router(),
-  report = express.Router(),
-  disburse = express.Router(),
-  database = express.Router(),
-  cors = require("cors"),
-  stripe = require("stripe")(process.env.STRIPE_SECRET);
+  cors = require("cors");
 //FIREBASEADMIN = FIREBASEADMIN.toSource(); //https://dashboard.stripe.com/account/apikeys
 
 app.use(timeout("5s"));
@@ -97,11 +85,6 @@ process.on("SIGUSR2", exitHandler.bind(null, { exit: true }));
 //http://johnzhang.io/options-req-in-express
 //var origin = req.get('origin');
 
-const nonbody = express
-  .Router()
-  .get("/", (req, res) => res.status(200).send("shove it"))
-  .options("/*", preflight);
-
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -109,6 +92,10 @@ var statusCode = 200,
   statusText = "ok";
 //https://support.stripe.com/questions/know-your-customer-(kyc)-requirements-for-connected-accounts
 
+const nonbody = express
+  .Router()
+  .get("/", (req, res) => res.status(200).send("shove it"))
+  .options("/*", preflight);
 attach
   .post("/quickbooks", async (req, res) => {
     var origin = refererOrigin(req, res);
@@ -242,7 +229,7 @@ attach
     });
   });
 //https://stackoverflow.com/questions/31928417/chaining-multiple-pieces-of-middleware-for-specific-route-in-expressjs
-app.use(attach); //methods on express.Router() or use a scoped instance
+app.use(nonbody, attach); //methods on express.Router() or use a scoped instance
 app.listen(port, () => console.log(`localhost:${port}`));
 process.stdin.resume(); //so the program will not close instantly
 function exitHandler(exited, exitCode) {
