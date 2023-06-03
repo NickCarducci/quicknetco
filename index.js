@@ -2,6 +2,18 @@ const PLAID = require("plaid"),
   { Configuration, PlaidApi, PlaidEnvironments } = PLAID;
 require("dotenv").config();
 
+const configuration = new Configuration({
+  basePath: PlaidEnvironments.sandbox,
+  baseOptions: {
+    headers: {
+      "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
+      "PLAID-SECRET": process.env.PLAID_SECRET,
+      "Plaid-Version": "2020-09-14"
+    }
+  }
+});
+const plaidClient = new PlaidApi(configuration);
+
 const OAuthClient = require("intuit-oauth"),
   port = 8080,
   allowedOrigins = ["https://quick.net.co", "https://se1dt7.csb.app"], //Origin: <scheme>://<hostname>:<port>
@@ -145,24 +157,6 @@ attach
         progress: "yet to surname factor digit counts.."
       });
 
-    const configuration = new Configuration({
-      basePath: PlaidEnvironments.sandbox,
-      baseOptions: {
-        headers: {
-          "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-          "PLAID-SECRET": process.env.PLAID_SECRET,
-          "Plaid-Version": "2020-09-14"
-        }
-      }
-    });
-
-    const plaidClient = new PlaidApi(configuration);
-
-    RESSEND(res, {
-      statusCode,
-      statusText,
-      plaidClient
-    });
     const response = await plaidClient
       .createLinkToken({
         user: {
@@ -204,18 +198,6 @@ attach
         statusText,
         progress: "yet to surname factor digit counts.."
       });
-
-    const configuration = new Configuration({
-      basePath: PlaidEnvironments.sandbox,
-      baseOptions: {
-        headers: {
-          "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-          "PLAID-SECRET": process.env.PLAID_SECRET
-        }
-      }
-    });
-
-    const plaidClient = new PlaidApi(configuration);
 
     const response = await plaidClient.itemPublicTokenExchange({
       public_token: req.body.public_token
