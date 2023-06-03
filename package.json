@@ -1,0 +1,26 @@
+{
+    "name": "quick-net",
+    "version": "1.0.0",
+    "description": "bookkeeping facility",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "author": "Nick Carducci nmcarducci@gmail.com",
+    "license": "UNLICENSED",
+    "dependencies": {
+      "@babel/core": "^7.19.3",
+      "@babel/preset-env": "^7.19.3",
+      "connect-timeout": "^1.9.0",
+      "cors": "^2.8.5",
+      "dotenv": "^16.0.3",
+      "express": "^4.18.1",
+      "intuit-oauth": "^4.0.0",
+      "node-fetch": "^2.6.7",
+      "plaid": "^12.1.0"
+    },
+    "false": {
+      "babel-register": "^6.26.0"
+    }
+  }
+  
