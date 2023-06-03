@@ -247,7 +247,9 @@ attach
     });
     const plaidClient = new PlaidApi(configuration);
     const transactions_response = await plaidClient.transactionsGet({
-      access_token: req.body.access_token
+      access_token: req.body.access_token,
+      start_date: req.body.start_date,
+      end_date: req.body.end_date
     });
     if (!transactions_response.data.transactions)
       return RESSEND(res, {
