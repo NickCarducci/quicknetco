@@ -1,5 +1,4 @@
-//const { Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
-const plaid = require("plaid");
+const { Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
 require("dotenv").config();
 
 const OAuthClient = require("intuit-oauth"),
@@ -145,7 +144,7 @@ attach
         progress: "yet to surname factor digit counts.."
       });
 
-    /*const configuration = new Configuration({
+    const configuration = new Configuration({
       basePath: PlaidEnvironments.sandbox,
       baseOptions: {
         headers: {
@@ -154,14 +153,10 @@ attach
           "Plaid-Version": "2020-09-14"
         }
       }
-    });*/
-    const plaidClient = new plaid.Client({
-      clientID: process.env.PLAID_CLIENT_ID,
-      secret: process.env.PLAID_SECRET,
-      env: plaid.PlaidEnvironments.sandbox
     });
+    const plaidClient = new PlaidApi(configuration);
     const response = await plaidClient
-      .createLinkToken({
+      .linkTokenCreate({
         user: {
           client_user_id: process.env.PLAID_CLIENT_ID
         },
@@ -202,11 +197,17 @@ attach
         progress: "yet to surname factor digit counts.."
       });
 
-    const plaidClient = new plaid.Client({
-      clientID: process.env.PLAID_CLIENT_ID,
-      secret: process.env.PLAID_SECRET,
-      env: plaid.PlaidEnvironments.sandbox
+    const configuration = new Configuration({
+      basePath: PlaidEnvironments.sandbox,
+      baseOptions: {
+        headers: {
+          "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
+          "PLAID-SECRET": process.env.PLAID_SECRET,
+          "Plaid-Version": "2020-09-14"
+        }
+      }
     });
+    const plaidClient = new PlaidApi(configuration);
     const response = await plaidClient.itemPublicTokenExchange({
       public_token: req.body.public_token
     });
