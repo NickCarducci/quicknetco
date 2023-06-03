@@ -214,9 +214,40 @@ attach
     const response = await plaidClient.itemPublicTokenExchange({
       public_token: req.body.public_token
     });
-    const access_token = response.data.access_token;
+    if (!response.data.access_token)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go transactionsGet by plaidClient"
+      });
+    RESSEND(res, {
+      statusCode,
+      statusText,
+      access_token: response.data.access_token
+    });
+  })
+  .post("/transactions", async (req, res) => {
+    var origin = refererOrigin(req, res);
+    if (!req.body || allowOriginType(origin, res))
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        progress: "yet to surname factor digit counts.."
+      });
+
+    const configuration = new Configuration({
+      basePath: PlaidEnvironments.sandbox,
+      baseOptions: {
+        headers: {
+          "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
+          "PLAID-SECRET": process.env.PLAID_SECRET,
+          "Plaid-Version": "2020-09-14"
+        }
+      }
+    });
+    const plaidClient = new PlaidApi(configuration);
     const transactions_response = await plaidClient.transactionsGet({
-      access_token
+      access_token: req.body.access_token
     });
     if (!transactions_response.data.transactions)
       return RESSEND(res, {
@@ -228,6 +259,80 @@ attach
       statusCode,
       statusText,
       transactions: transactions_response.data.transactions
+    });
+  })
+  .post("/detail", async (req, res) => {
+    var origin = refererOrigin(req, res);
+    if (!req.body || allowOriginType(origin, res))
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        progress: "yet to surname factor digit counts.."
+      });
+
+    const configuration = new Configuration({
+      basePath: PlaidEnvironments.sandbox,
+      baseOptions: {
+        headers: {
+          "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
+          "PLAID-SECRET": process.env.PLAID_SECRET,
+          "Plaid-Version": "2020-09-14"
+        }
+      }
+    });
+    const plaidClient = new PlaidApi(configuration);
+    const detail_response = await plaidClient.itemGet({
+      access_token: req.body.access_token
+    }); //https://plaid.com/docs/api/items/#itemget
+    const detaile_response = await plaidClient.institutionsGetById({
+      institution_id: detail_response.data.item.institution_id,
+      country_codes: ["US"]
+    }); //https://plaid.com/docs/api/institutions/#institutionsget
+    if (!detaile_response.data)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go detail by plaidClient"
+      });
+    RESSEND(res, {
+      statusCode,
+      statusText,
+      detail: detaile_response.data
+    });
+  })
+  .post("/remove", async (req, res) => {
+    var origin = refererOrigin(req, res);
+    if (!req.body || allowOriginType(origin, res))
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        progress: "yet to surname factor digit counts.."
+      });
+
+    const configuration = new Configuration({
+      basePath: PlaidEnvironments.sandbox,
+      baseOptions: {
+        headers: {
+          "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
+          "PLAID-SECRET": process.env.PLAID_SECRET,
+          "Plaid-Version": "2020-09-14"
+        }
+      }
+    });
+    const plaidClient = new PlaidApi(configuration);
+    const remove_response = await plaidClient.itemRemove({
+      access_token: req.body.access_token
+    });
+    if (!remove_response.data)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go removal by plaidClient"
+      });
+    RESSEND(res, {
+      statusCode,
+      statusText,
+      removal: remove_response.data
     });
   });
 //https://stackoverflow.com/questions/31928417/chaining-multiple-pieces-of-middleware-for-specific-route-in-expressjs
