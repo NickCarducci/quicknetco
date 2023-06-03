@@ -161,16 +161,19 @@ attach
           client_user_id: process.env.PLAID_CLIENT_ID
         },
         client_name: "QuickNet",
-        products: ["auth", "transactions"],
+        products: [
+          //"auth",
+          "transactions"
+        ],
         country_codes: ["US"],
         language: "en",
         //webhook: "https://sample-web-hook.com",
-        redirect_uri: "https://quick.net.co",
-        account_filters: {
+        redirect_uri: "https://quick.net.co"
+        /*account_filters: {
           depository: {
             account_subtypes: ["checking", "savings"]
           }
-        }
+        }*/
       })
       .catch((e) => {
         standardCatch(res, e, {}, "link token (create callback)");
