@@ -96,6 +96,178 @@ const nonbody = express
   .get("/", (req, res) => res.status(200).send("shove it"))
   .options("/*", preflight);
 attach
+  .post("/quickbooksinfo", async (req, res) => {
+    var origin = refererOrigin(req, res);
+    if (!req.body || allowOriginType(origin, res))
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        progress: "yet to surname factor digit counts.."
+      });
+
+    const oauthClient = new OAuthClient({
+      clientId: process.env.QBA_ID,
+      clientSecret: process.env.QBA_SECRET,
+      environment: "sandbox",
+      redirectUri: origin //"https://scopes.cc"
+      //logging: true
+    });
+    var companyID = oauthClient.getToken().realmId;
+
+    var url =
+      oauthClient.environment === "sandbox"
+        ? OAuthClient.environment.sandbox
+        : OAuthClient.environment.production;
+
+    const companyInfo = await oauthClient.makeApiCall({
+      url: url + "v3/company/" + companyID + "/companyinfo/" + companyID
+    });
+    if (!companyInfo)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go companyInfo by api"
+      });
+    RESSEND(res, {
+      statusCode,
+      statusText,
+      companyInfo
+    });
+  })
+  .post("/quickbookscustomer", async (req, res) => {
+    var origin = refererOrigin(req, res);
+    if (!req.body || allowOriginType(origin, res))
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        progress: "yet to surname factor digit counts.."
+      });
+
+    const oauthClient = new OAuthClient({
+      clientId: process.env.QBA_ID,
+      clientSecret: process.env.QBA_SECRET,
+      environment: "sandbox",
+      redirectUri: origin //"https://scopes.cc"
+      //logging: true
+    });
+    var companyID = oauthClient.getToken().realmId;
+
+    var url =
+      oauthClient.environment === "sandbox"
+        ? OAuthClient.environment.sandbox
+        : OAuthClient.environment.production;
+
+    const selectAccount =
+      "select * from Account where Metadata.CreateTime > '2014-12-31'";
+    const accounts = await oauthClient.makeApiCall({
+      url:
+        url +
+        "v3/company/" +
+        companyID +
+        "/query?query=" +
+        selectAccount +
+        "&minorversion=40"
+    });
+    if (!accounts)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go accounts by oauth"
+      });
+    const selectVendor =
+      "select * from vendor where Metadata.CreateTime > '2014-12-31'";
+    const vendors = await oauthClient.makeApiCall({
+      url:
+        url +
+        "v3/company/" +
+        companyID +
+        "/query?query=" +
+        selectVendor +
+        "&minorversion=40"
+    });
+    if (!vendors)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go vendors by oauth"
+      });
+    const selectCustomer =
+      "select * from Customer where Metadata.CreateTime > '2014-12-31'";
+    const customers = await oauthClient.makeApiCall({
+      url:
+        url +
+        "v3/company/" +
+        companyID +
+        "/query?query=" +
+        selectCustomer +
+        "&minorversion=40"
+    });
+    if (!customers)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go customers by oauth"
+      });
+    RESSEND(res, {
+      statusCode,
+      statusText,
+      accounts,
+      vendors,
+      customers
+    });
+  })
+  .post("/quickbookscallback", async (req, res) => {
+    var origin = refererOrigin(req, res);
+    if (!req.body || allowOriginType(origin, res))
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        progress: "yet to surname factor digit counts.."
+      });
+    const oauthClient = new OAuthClient({
+      clientId: process.env.QBA_ID,
+      clientSecret: process.env.QBA_SECRET,
+      environment: "sandbox",
+      redirectUri: origin //"https://scopes.cc"
+      //logging: true
+    });
+    if (!oauthClient.authorizeUri)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go oauthClient new"
+      });
+    const authResponse = await oauthClient.createToken(req.body.url);
+
+    if (!authResponse)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go authResponse by oauth"
+      });
+    const quickbooks_token = authResponse.getJson();
+    //const quickbooks_token = JSON.stringify(authResponse.getJson(), null, 2);
+    if (!quickbooks_token)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go authUri by oauth"
+      });
+    var companyID = oauthClient.getToken().realmId;
+
+    if (!companyID)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go customers by oauth"
+      });
+    RESSEND(res, {
+      statusCode,
+      statusText,
+      quickbooks_token,
+      companyID
+    });
+  })
   .post("/quickbooks", async (req, res) => {
     var origin = refererOrigin(req, res);
     if (!req.body || allowOriginType(origin, res))
