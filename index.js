@@ -185,7 +185,7 @@ attach
     RESSEND(res, {
       statusCode,
       statusText,
-      linkResponse: linkResponse.data
+      link_token: linkResponse.data.link_token
     });
   })
   .post("/plaid", async (req, res) => {
