@@ -164,7 +164,7 @@ attach
         products: ["auth", "transactions"],
         country_codes: ["US"],
         language: "en",
-        webhook: "https://sample-web-hook.com",
+        //webhook: "https://sample-web-hook.com",
         redirect_uri: "https://quick.net.co",
         account_filters: {
           depository: {
