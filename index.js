@@ -158,7 +158,7 @@ attach
     const plaidClient = new plaid.Client({
       clientID: process.env.PLAID_CLIENT_ID,
       secret: process.env.PLAID_SECRET,
-      env: plaid.environments.sandbox
+      env: plaid.PlaidEnvironments.sandbox
     });
     const response = await plaidClient
       .createLinkToken({
@@ -205,7 +205,7 @@ attach
     const plaidClient = new plaid.Client({
       clientID: process.env.PLAID_CLIENT_ID,
       secret: process.env.PLAID_SECRET,
-      env: plaid.environments.sandbox
+      env: plaid.PlaidEnvironments.sandbox
     });
     const response = await plaidClient.itemPublicTokenExchange({
       public_token: req.body.public_token
