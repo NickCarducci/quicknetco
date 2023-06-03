@@ -215,17 +215,19 @@ attach
       public_token: req.body.public_token
     });
     const access_token = response.data.access_token;
-    const accounts_response = await plaidClient.accountsGet({ access_token });
-    const accounts = accounts_response.data.accounts;
-    if (!accounts)
+    const transactions_response = await plaidClient.transactionsGet({
+      access_token
+    });
+    if (!transactions_response.data.transactions)
       return RESSEND(res, {
         statusCode,
         statusText,
-        error: "no go authUri by oauth"
+        error: "no go transactionsGet by plaidClient"
       });
     RESSEND(res, {
       statusCode,
-      statusText
+      statusText,
+      transactions: transactions_response.data.transactions
     });
   });
 //https://stackoverflow.com/questions/31928417/chaining-multiple-pieces-of-middleware-for-specific-route-in-expressjs
