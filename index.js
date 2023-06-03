@@ -155,7 +155,7 @@ attach
       }
     });
     const plaidClient = new PlaidApi(configuration);
-    const response = await plaidClient
+    const linkResponse = await plaidClient
       .linkTokenCreate({
         user: {
           client_user_id: process.env.PLAID_CLIENT_ID
@@ -176,16 +176,16 @@ attach
         standardCatch(res, e, {}, "setup intents (create callback)");
       });
 
-    if (!response.link_token)
+    if (!linkResponse)
       return RESSEND(res, {
         statusCode,
         statusText,
-        error: "no go linkToken by plaidClient"
+        error: "no go linkResponse by plaidClient"
       });
     RESSEND(res, {
       statusCode,
       statusText,
-      linkToken: response.link_token
+      linkResponse
     });
   })
   .post("/plaid", async (req, res) => {
