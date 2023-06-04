@@ -120,7 +120,11 @@ attach
         : OAuthClient.environment.production;
 
     const companyInfo = await oauthClient.makeApiCall({
-      url: url + "v3/company/" + companyID + "/companyinfo/" + companyID
+      url:
+        url +
+        "v3/company/" +
+        companyID + //"/companyinfo/" + companyID
+        "/query?query=select * from CompanyInfo"
     });
     if (!companyInfo)
       return RESSEND(res, {
@@ -251,7 +255,7 @@ attach
       return RESSEND(res, {
         statusCode,
         statusText,
-        error: "no go authUri by oauth"
+        error: "no go quickbooks_token by authResponse.getJson"
       });
     var companyID = oauthClient.getToken().realmId;
 
@@ -259,7 +263,7 @@ attach
       return RESSEND(res, {
         statusCode,
         statusText,
-        error: "no go customers by oauth"
+        error: "no go companyID by realmId"
       });
     RESSEND(res, {
       statusCode,
