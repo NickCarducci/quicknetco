@@ -280,7 +280,7 @@ attach
         error: "no go quickbooks_token by authResponse.getJson"
       });
     var companyIDToken =
-      oauthClient.getToken().realmId + "-" + quickbooks_token.access_token;
+      oauthClient.getToken().realmId + ":" + quickbooks_token.access_token;
 
     if (!companyIDToken)
       return RESSEND(res, {
