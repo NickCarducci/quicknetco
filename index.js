@@ -96,6 +96,59 @@ const nonbody = express
   .get("/", (req, res) => res.status(200).send("shove it"))
   .options("/*", preflight);
 attach
+  .post("/purchases", async (req, res) => {
+    var origin = refererOrigin(req, res);
+    if (!req.body || allowOriginType(origin, res))
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        progress: "yet to surname factor digit counts.."
+      });
+
+    const oauthClient = new OAuthClient({
+      clientId: process.env.QBA_ID,
+      clientSecret: process.env.QBA_SECRET,
+      environment: "sandbox",
+      redirectUri: origin //"https://scopes.cc"
+      //logging: true
+    });
+    //var companyID = oauthClient.getToken().realmId;
+
+    var url =
+      oauthClient.environment === "sandbox"
+        ? OAuthClient.environment.sandbox
+        : OAuthClient.environment.production;
+    const companyID = req.body.companyIDToken.split(":")[0];
+
+    const selectAccount =
+      "select * from Purchase where Metadata.CreateTime > '2014-12-31'";
+    const purchases = await oauthClient.makeApiCall({
+      url:
+        url +
+        "v3/company/" +
+        companyID +
+        "/query?query=" +
+        selectAccount +
+        "&minorversion=65",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
+      },
+      body: JSON.stringify({})
+    });
+    if (!purchases)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go purchases by oauth"
+      });
+    RESSEND(res, {
+      statusCode,
+      statusText,
+      purchases
+    });
+  })
   .post("/quickbooksinfo", async (req, res) => {
     var origin = refererOrigin(req, res);
     if (!req.body || allowOriginType(origin, res))
