@@ -96,6 +96,70 @@ const nonbody = express
   .get("/", (req, res) => res.status(200).send("shove it"))
   .options("/*", preflight);
 attach
+  .post("/subscribe", async (req, res) => {
+    var origin = refererOrigin(req, res);
+    if (!req.body || allowOriginType(origin, res))
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        progress: "yet to surname factor digit counts.."
+      });
+
+    // create a stripe customer
+    const customer = await this.stripe.customers.create({
+      name: req.body.name,
+      email: req.body.email,
+      payment_method: req.body.paymentMethod,
+      invoice_settings: {
+        default_payment_method: req.body.paymentMethod
+      }
+    });
+
+    // get the price id from the front-end
+    const priceId = req.body.priceId;
+
+    // create a stripe subscription
+    const subscription = await this.stripe.subscriptions.create({
+      customer: customer.id,
+      items: [{ price: priceId }],
+      payment_settings: {
+        payment_method_options: {
+          card: {
+            request_three_d_secure: "any"
+          }
+        },
+        payment_method_types: ["card"],
+        save_default_payment_method: "on_subscription"
+      },
+      expand: ["latest_invoice.payment_intent"]
+    });
+    /*const configuration = new Configuration({
+      basePath: PlaidEnvironments.sandbox,
+      baseOptions: {
+        headers: {
+          "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
+          "PLAID-SECRET": process.env.PLAID_SECRET,
+          "Plaid-Version": "2020-09-14"
+        }
+      }
+    });
+    const plaidClient = new PlaidApi(configuration);
+    const subscription_response = await plaidClient.transferRecurringCreate({
+      access_token: req.body.access_token
+    });*/
+    if (!subscription.id)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go subscription by plaidClient"
+      });
+    RESSEND(res, {
+      statusCode,
+      statusText,
+      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+      subscription: subscription.id
+    });
+  })
   .post("/purchases", async (req, res) => {
     var origin = refererOrigin(req, res);
     if (!req.body || allowOriginType(origin, res))
