@@ -121,7 +121,7 @@ attach
     const companyID = req.body.companyIDToken.split(":")[0];
 
     const selectAccount =
-      "SELECT * FROM Purchase WHERE " +
+      "select * from Purchase where " +
       `Metadata.CreateTime > '${req.body.start_date}' AND Metadata.CreateTime < '${req.body.end_date}'`;
     const purchases = await oauthClient.makeApiCall({
       url:
@@ -179,7 +179,7 @@ attach
         "v3/company/" +
         req.body.companyIDToken.split(":")[0] +
         //companyID + //"/companyinfo/" + companyID
-        "/query?query=SELECT * FROM CompanyInfo",
+        "/query?query=select * from CompanyInfo",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -223,7 +223,7 @@ attach
         : OAuthClient.environment.production;
     const companyID = req.body.companyIDToken.split(":")[0];
 
-    const selectAccount = "SELECT * FROM Account WHERE AccountType = 'Expense'";
+    const selectAccount = "select * from Account"; // where Metadata.CreateTime > '2014-12-31'";
     const accounts = await oauthClient.makeApiCall({
       url:
         url +
@@ -231,7 +231,7 @@ attach
         companyID +
         "/query?query=" +
         selectAccount +
-        "&minorversion=65",
+        "&minorversion=40",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -245,8 +245,7 @@ attach
         statusText,
         error: "no go accounts by oauth"
       });
-    const selectVendor =
-      "SELECT * FROM vendor WHERE Metadata.CreateTime > '2014-12-31'";
+    const selectVendor = "select * from vendor"; // where Metadata.CreateTime > '2014-12-31'";
     const vendors = await oauthClient.makeApiCall({
       url:
         url +
@@ -254,7 +253,7 @@ attach
         companyID +
         "/query?query=" +
         selectVendor +
-        "&minorversion=65",
+        "&minorversion=40",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -268,8 +267,7 @@ attach
         statusText,
         error: "no go vendors by oauth"
       });
-    const selectCustomer =
-      "SELECT * FROM Customer WHERE Metadata.CreateTime > '2014-12-31'";
+    const selectCustomer = "select * from Customer"; // where Metadata.CreateTime > '2014-12-31'";
     const customers = await oauthClient.makeApiCall({
       url:
         url +
@@ -277,7 +275,7 @@ attach
         companyID +
         "/query?query=" +
         selectCustomer +
-        "&minorversion=65",
+        "&minorversion=40",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -528,7 +526,7 @@ attach
     const companyID = req.body.companyIDToken.split(":")[0];
 
     const selectPurchases =
-      "SELECT * FROM Purchase WHERE " +
+      "select * from Purchase where " +
       `Metadata.CreateTime > '${req.body.start_date}' AND Metadata.CreateTime < '${req.body.end_date}'`;
     const purchases = await oauthClient.makeApiCall({
       url:
