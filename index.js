@@ -130,8 +130,7 @@ attach
         "Content-Type": "application/json",
         Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
       },
-      body: JSON.stringify({
-      })
+      body: JSON.stringify({})
     });
     if (!companyInfo)
       return RESSEND(res, {
@@ -207,8 +206,7 @@ attach
         "Content-Type": "application/json",
         Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
       },
-      body: JSON.stringify({
-      })
+      body: JSON.stringify({})
     });
     if (!vendors)
       return RESSEND(res, {
@@ -228,11 +226,10 @@ attach
         "&minorversion=40",
       method: "POST",
       headers: {
-        "Content-Type": "application/json",∂
+        "Content-Type": "application/json",
         Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
       },
-      body: JSON.stringify({
-      })
+      body: JSON.stringify({})
     });
     if (!customers)
       return RESSEND(res, {
