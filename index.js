@@ -124,7 +124,14 @@ attach
         url +
         "v3/company/" +
         companyID + //"/companyinfo/" + companyID
-        "/query?query=select * from CompanyInfo"
+        "/query?query=select * from CompanyInfo",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        Authorization: `bearer ${req.body.companyIDToken.split(":")[1]}`
+      })
     });
     if (!companyInfo)
       return RESSEND(res, {
@@ -160,7 +167,7 @@ attach
       oauthClient.environment === "sandbox"
         ? OAuthClient.environment.sandbox
         : OAuthClient.environment.production;
-    const companyID = req.body.companyIDToken.split("-")[0];
+    const companyID = req.body.companyIDToken.split(":")[0];
 
     const selectAccount =
       "select * from Account where Metadata.CreateTime > '2014-12-31'";
@@ -177,7 +184,7 @@ attach
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        Authorization: `bearer ${req.body.companyIDToken.split("-")[1]}`
+        Authorization: `bearer ${req.body.companyIDToken.split(":")[1]}`
       })
     });
     if (!accounts)
@@ -201,7 +208,7 @@ attach
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        Authorization: `bearer ${req.body.companyIDToken.split("-")[1]}`
+        Authorization: `bearer ${req.body.companyIDToken.split(":")[1]}`
       })
     });
     if (!vendors)
@@ -225,7 +232,7 @@ attach
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        Authorization: `bearer ${req.body.companyIDToken.split("-")[1]}`
+        Authorization: `bearer ${req.body.companyIDToken.split(":")[1]}`
       })
     });
     if (!customers)
