@@ -267,7 +267,8 @@ attach
         statusText,
         error: "no go vendors by oauth"
       });
-    const selectCustomer = "select * from Customer"; // where Metadata.CreateTime > '2014-12-31'";
+    const selectCustomer =
+      "select * from Customer where Line contains AccountBasedExpenseLineDetail.CustomerRef"; // where Metadata.CreateTime > '2014-12-31'";
     const customers = await oauthClient.makeApiCall({
       url:
         url +
