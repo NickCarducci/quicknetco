@@ -257,19 +257,19 @@ attach
         statusText,
         error: "no go quickbooks_token by authResponse.getJson"
       });
-    var companyID = oauthClient.getToken().realmId;
+    var companyIDToken =
+      oauthClient.getToken().realmId + "-" + quickbooks_token;
 
-    if (!companyID)
+    if (!companyIDToken)
       return RESSEND(res, {
         statusCode,
         statusText,
-        error: "no go companyID by realmId"
+        error: "no go companyIDToken by realmId"
       });
     RESSEND(res, {
       statusCode,
       statusText,
-      quickbooks_token,
-      companyID
+      companyIDToken
     });
   })
   .post("/quickbooks", async (req, res) => {
