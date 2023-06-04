@@ -124,14 +124,9 @@ attach
         url +
         "v3/company/" +
         companyID + //"/companyinfo/" + companyID
-        "/query?query=select * from CompanyInfo",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        Authorization: `bearer ${req.body.companyIDToken.split(":")[1]}`
-      })
+        "/query?query=select * from CompanyInfo" +
+        "&access_token=" +
+        req.body.companyIDToken.split(":")[1]
     });
     if (!companyInfo)
       return RESSEND(res, {
@@ -178,14 +173,16 @@ attach
         companyID +
         "/query?query=" +
         selectAccount +
-        "&minorversion=40",
-      method: "POST",
+        "&minorversion=40" +
+        "&access_token=" +
+        req.body.companyIDToken.split(":")[1]
+      /*method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         Authorization: `bearer ${req.body.companyIDToken.split(":")[1]}`
-      })
+      })*/
     });
     if (!accounts)
       return RESSEND(res, {
@@ -202,14 +199,9 @@ attach
         companyID +
         "/query?query=" +
         selectVendor +
-        "&minorversion=40",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        Authorization: `bearer ${req.body.companyIDToken.split(":")[1]}`
-      })
+        "&minorversion=40" +
+        "&access_token=" +
+        req.body.companyIDToken.split(":")[1]
     });
     if (!vendors)
       return RESSEND(res, {
@@ -226,14 +218,9 @@ attach
         companyID +
         "/query?query=" +
         selectCustomer +
-        "&minorversion=40",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        Authorization: `bearer ${req.body.companyIDToken.split(":")[1]}`
-      })
+        "&minorversion=40" +
+        "&access_token=" +
+        req.body.companyIDToken.split(":")[1]
     });
     if (!customers)
       return RESSEND(res, {
