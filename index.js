@@ -224,7 +224,8 @@ attach
     const companyID = req.body.companyIDToken.split(":")[0];
 
     const selectAccount =
-      "select * from Account where Metadata.CreateTime > '2014-12-31'";
+      "select * from Account where " +
+      "Metadata.CreateTime > '2014-12-31' AND AccountType = 'Expense'";
     const accounts = await oauthClient.makeApiCall({
       url:
         url +
