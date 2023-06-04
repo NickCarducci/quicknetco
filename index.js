@@ -120,11 +120,8 @@ attach
         : OAuthClient.environment.production;
 
     const companyInfo = await oauthClient.makeApiCall({
-      url:
-        url +
-        "v3/company/" +
-        companyID + //"/companyinfo/" + companyID
-        "/query?query=select * from CompanyInfo",
+      url: url + "v3/company/" + companyID + "/companyinfo/" + companyID,
+      //"/query?query=select * from CompanyInfo",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
