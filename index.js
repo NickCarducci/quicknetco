@@ -121,7 +121,7 @@ attach
     const companyID = req.body.companyIDToken.split(":")[0];
 
     const selectAccount =
-      "select * from Purchase where " +
+      "select * from Purchase where Line contains AccountBasedExpenseLineDetail.CustomerRef AND " +
       `Metadata.CreateTime > '${req.body.start_date}' AND Metadata.CreateTime < '${req.body.end_date}'`;
     const purchases = await oauthClient.makeApiCall({
       url:
@@ -267,8 +267,7 @@ attach
         statusText,
         error: "no go vendors by oauth"
       });
-    const selectCustomer =
-      "select * from Customer where Line contains AccountBasedExpenseLineDetail.CustomerRef"; // where Metadata.CreateTime > '2014-12-31'";
+    const selectCustomer = "select * from Customer"; // where Metadata.CreateTime > '2014-12-31'";
     const customers = await oauthClient.makeApiCall({
       url:
         url +
