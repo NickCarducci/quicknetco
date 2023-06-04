@@ -224,7 +224,7 @@ attach
     const companyID = req.body.companyIDToken.split(":")[0];
 
     const selectAccount =
-      "select * from Account where Classification LIKE 'Expense'"; // where Metadata.CreateTime > '2014-12-31'";
+      "select * from Account where Classification LIKE 'Expense%'"; // where Metadata.CreateTime > '2014-12-31'";
     const accounts = await oauthClient.makeApiCall({
       url:
         url +
@@ -246,8 +246,7 @@ attach
         statusText,
         error: "no go accounts by oauth"
       });
-    const selectVendor =
-      "select * from vendor"// where Metadata.CreateTime > '2014-12-31'";
+    const selectVendor = "select * from vendor"; // where Metadata.CreateTime > '2014-12-31'";
     const vendors = await oauthClient.makeApiCall({
       url:
         url +
@@ -269,8 +268,7 @@ attach
         statusText,
         error: "no go vendors by oauth"
       });
-    const selectCustomer =
-      "select * from Customer"// where Metadata.CreateTime > '2014-12-31'";
+    const selectCustomer = "select * from Customer"; // where Metadata.CreateTime > '2014-12-31'";
     const customers = await oauthClient.makeApiCall({
       url:
         url +
