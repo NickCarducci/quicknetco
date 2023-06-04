@@ -121,7 +121,8 @@ attach
     const companyID = req.body.companyIDToken.split(":")[0];
 
     const selectAccount =
-      "select * from Purchase where Metadata.CreateTime > '2014-12-31'";
+      "select * from Purchase where " +
+      `Metadata.CreateTime > '${req.body.start_date}' AND Metadata.CreateTime < '${req.body.end_date}'`;
     const purchases = await oauthClient.makeApiCall({
       url:
         url +
@@ -512,10 +513,50 @@ attach
         statusText,
         error: "no go transactionsGet by plaidClient"
       });
+    const oauthClient = new OAuthClient({
+      clientId: process.env.QBA_ID,
+      clientSecret: process.env.QBA_SECRET,
+      environment: "sandbox",
+      redirectUri: origin //"https://scopes.cc"
+      //logging: true
+    });
+    //var companyID = oauthClient.getToken().realmId;
+
+    var url =
+      oauthClient.environment === "sandbox"
+        ? OAuthClient.environment.sandbox
+        : OAuthClient.environment.production;
+    const companyID = req.body.companyIDToken.split(":")[0];
+
+    const selectPurchases =
+      "select * from Purchase where " +
+      `Metadata.CreateTime > '${req.body.start_date}' AND Metadata.CreateTime < '${req.body.end_date}'`;
+    const purchases = await oauthClient.makeApiCall({
+      url:
+        url +
+        "v3/company/" +
+        companyID +
+        "/query?query=" +
+        selectPurchases +
+        "&minorversion=65",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
+      },
+      body: JSON.stringify({})
+    });
+    if (!purchases)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go purchases by oauth"
+      });
     RESSEND(res, {
       statusCode,
       statusText,
-      transactions: transactions_response.data.transactions
+      transactions: transactions_response.data.transactions,
+      purchases
     });
   })
   .post("/detail", async (req, res) => {
