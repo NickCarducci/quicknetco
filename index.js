@@ -112,7 +112,7 @@ attach
       redirectUri: origin //"https://scopes.cc"
       //logging: true
     });
-    var companyID = oauthClient.getToken().realmId;
+    //var companyID = oauthClient.getToken().realmId;
 
     var url =
       oauthClient.environment === "sandbox"
@@ -120,8 +120,12 @@ attach
         : OAuthClient.environment.production;
 
     const companyInfo = await oauthClient.makeApiCall({
-      url: url + "v3/company/" + companyID + "/companyinfo/" + companyID,
-      //"/query?query=select * from CompanyInfo",
+      url:
+        url +
+        "v3/company/" +
+        req.body.companyIDToken.split(":")[0] +
+        //companyID + //"/companyinfo/" + companyID
+        "/query?query=select * from CompanyInfo",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
