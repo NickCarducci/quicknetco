@@ -154,12 +154,13 @@ attach
       redirectUri: origin //"https://scopes.cc"
       //logging: true
     });
-    var companyID = oauthClient.getToken().realmId;
+    //var companyID = oauthClient.getToken().realmId;
 
     var url =
       oauthClient.environment === "sandbox"
         ? OAuthClient.environment.sandbox
         : OAuthClient.environment.production;
+    const companyID = req.body.companyIDToken.split("-")[0];
 
     const selectAccount =
       "select * from Account where Metadata.CreateTime > '2014-12-31'";
@@ -170,7 +171,14 @@ attach
         companyID +
         "/query?query=" +
         selectAccount +
-        "&minorversion=40"
+        "&minorversion=40",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        Authorization: `bearer ${req.body.companyIDToken.split("-")[1]}`
+      })
     });
     if (!accounts)
       return RESSEND(res, {
@@ -187,7 +195,14 @@ attach
         companyID +
         "/query?query=" +
         selectVendor +
-        "&minorversion=40"
+        "&minorversion=40",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        Authorization: `bearer ${req.body.companyIDToken.split("-")[1]}`
+      })
     });
     if (!vendors)
       return RESSEND(res, {
@@ -204,7 +219,14 @@ attach
         companyID +
         "/query?query=" +
         selectCustomer +
-        "&minorversion=40"
+        "&minorversion=40",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        Authorization: `bearer ${req.body.companyIDToken.split("-")[1]}`
+      })
     });
     if (!customers)
       return RESSEND(res, {
