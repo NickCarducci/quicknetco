@@ -223,7 +223,8 @@ attach
         : OAuthClient.environment.production;
     const companyID = req.body.companyIDToken.split(":")[0];
 
-    const selectAccount = "select * from Account"; // where Metadata.CreateTime > '2014-12-31'";
+    const selectAccount =
+      "select * from Account where Classification = 'Expense'"; // where Metadata.CreateTime > '2014-12-31'";
     const accounts = await oauthClient.makeApiCall({
       url:
         url +
