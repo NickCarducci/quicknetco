@@ -232,7 +232,7 @@ attach
         companyID +
         "/query?query=" +
         selectAccount +
-        "&minorversion=40",
+        "&minorversion=65",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -255,7 +255,7 @@ attach
         companyID +
         "/query?query=" +
         selectVendor +
-        "&minorversion=40",
+        "&minorversion=65",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -278,7 +278,7 @@ attach
         companyID +
         "/query?query=" +
         selectCustomer +
-        "&minorversion=40",
+        "&minorversion=65",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
