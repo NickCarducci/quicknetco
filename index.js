@@ -161,6 +161,51 @@ attach
       subscription: subscription.id
     });
   })
+  .post("/addpurchase", async (req, res) => {
+    var origin = refererOrigin(req, res);
+    if (!req.body || allowOriginType(origin, res))
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        progress: "yet to surname factor digit counts.."
+      });
+
+    const oauthClient = new OAuthClient({
+      clientId: process.env.QBA_ID,
+      clientSecret: process.env.QBA_SECRET,
+      environment: "sandbox",
+      redirectUri: origin //"https://scopes.cc"
+      //logging: true
+    });
+    //var companyID = oauthClient.getToken().realmId;
+
+    var url =
+      oauthClient.environment === "sandbox"
+        ? OAuthClient.environment.sandbox
+        : OAuthClient.environment.production;
+    const companyID = req.body.companyIDToken.split(":")[0];
+
+    const purchase = await oauthClient.makeApiCall({
+      url: url + "v3/company/" + companyID + "/purchase",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
+      },
+      body: JSON.stringify(req.body.purchase)
+    });
+    if (!purchase)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go purchase by oauth"
+      });
+    RESSEND(res, {
+      statusCode,
+      statusText,
+      purchase
+    });
+  })
   .post("/purchases", async (req, res) => {
     var origin = refererOrigin(req, res);
     if (!req.body || allowOriginType(origin, res))
@@ -463,7 +508,9 @@ attach
       });
 
     const configuration = new Configuration({
-      basePath: PlaidEnvironments.sandbox,
+      basePath: req.body.subscriptionId
+        ? PlaidEnvironments.production
+        : PlaidEnvironments.sandbox,
       baseOptions: {
         headers: {
           "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
@@ -519,7 +566,9 @@ attach
       });
 
     const configuration = new Configuration({
-      basePath: PlaidEnvironments.sandbox,
+      basePath: req.body.subscriptionId
+        ? PlaidEnvironments.production
+        : PlaidEnvironments.sandbox,
       baseOptions: {
         headers: {
           "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
@@ -554,7 +603,9 @@ attach
       });
 
     const configuration = new Configuration({
-      basePath: PlaidEnvironments.sandbox,
+      basePath: req.body.subscriptionId
+        ? PlaidEnvironments.production
+        : PlaidEnvironments.sandbox,
       baseOptions: {
         headers: {
           "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
@@ -631,7 +682,9 @@ attach
       });
 
     const configuration = new Configuration({
-      basePath: PlaidEnvironments.sandbox,
+      basePath: req.body.subscriptionId
+        ? PlaidEnvironments.production
+        : PlaidEnvironments.sandbox,
       baseOptions: {
         headers: {
           "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
@@ -670,7 +723,9 @@ attach
       });
 
     const configuration = new Configuration({
-      basePath: PlaidEnvironments.sandbox,
+      basePath: req.body.subscriptionId
+        ? PlaidEnvironments.production
+        : PlaidEnvironments.sandbox,
       baseOptions: {
         headers: {
           "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
