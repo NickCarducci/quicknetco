@@ -1,5 +1,6 @@
 const { Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
 require("dotenv").config();
+const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
 const OAuthClient = require("intuit-oauth"),
   port = 8080,
@@ -106,7 +107,7 @@ attach
       });
 
     // create a stripe customer
-    const customer = await this.stripe.customers.create({
+    const customer = await stripe.customers.create({
       name: req.body.name,
       email: req.body.email,
       payment_method: req.body.paymentMethod,
@@ -119,7 +120,7 @@ attach
     const priceId = req.body.priceId;
 
     // create a stripe subscription
-    const subscription = await this.stripe.subscriptions.create({
+    const subscription = await stripe.subscriptions.create({
       customer: customer.id,
       items: [{ price: priceId }],
       payment_settings: {
