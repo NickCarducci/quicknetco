@@ -127,10 +127,10 @@ attach
         "/query?query=select * from CompanyInfo",
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
       },
       body: JSON.stringify({
-        Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
       })
     });
     if (!companyInfo)
@@ -181,11 +181,10 @@ attach
         "&minorversion=40",
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+        "Content-Type": "application/json",
         Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
-      })
+      },
+      body: JSON.stringify({})
     });
     if (!accounts)
       return RESSEND(res, {
@@ -205,10 +204,10 @@ attach
         "&minorversion=40",
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
       },
       body: JSON.stringify({
-        Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
       })
     });
     if (!vendors)
@@ -229,10 +228,10 @@ attach
         "&minorversion=40",
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",∂
+        Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
       },
       body: JSON.stringify({
-        Authorization: `Bearer ${req.body.companyIDToken.split(":")[1]}`
       })
     });
     if (!customers)
