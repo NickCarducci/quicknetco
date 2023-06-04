@@ -223,9 +223,7 @@ attach
         : OAuthClient.environment.production;
     const companyID = req.body.companyIDToken.split(":")[0];
 
-    const selectAccount =
-      "SELECT * FROM Account WHERE " +
-      "Metadata.CreateTime > '2014-12-31' AND accounttype = 'Expense'";
+    const selectAccount = "SELECT * FROM Account WHERE AccountType = 'Expense'";
     const accounts = await oauthClient.makeApiCall({
       url:
         url +
@@ -233,7 +231,7 @@ attach
         companyID +
         "/query?query=" +
         selectAccount +
-        "&minorversion=40",
+        "&minorversion=65",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -256,7 +254,7 @@ attach
         companyID +
         "/query?query=" +
         selectVendor +
-        "&minorversion=40",
+        "&minorversion=65",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -279,7 +277,7 @@ attach
         companyID +
         "/query?query=" +
         selectCustomer +
-        "&minorversion=40",
+        "&minorversion=65",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
