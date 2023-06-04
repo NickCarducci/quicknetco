@@ -225,7 +225,7 @@ attach
 
     const selectAccount =
       "SELECT * FROM Account WHERE " +
-      "Metadata.CreateTime > '2014-12-31' AND AccountType = 'Expense'";
+      "Metadata.CreateTime > '2014-12-31' AND accounttype = 'Expense'";
     const accounts = await oauthClient.makeApiCall({
       url:
         url +
