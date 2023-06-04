@@ -121,7 +121,7 @@ attach
     const companyID = req.body.companyIDToken.split(":")[0];
 
     const selectAccount =
-      "select * from Purchase where " +
+      "SELECT * FROM Purchase WHERE " +
       `Metadata.CreateTime > '${req.body.start_date}' AND Metadata.CreateTime < '${req.body.end_date}'`;
     const purchases = await oauthClient.makeApiCall({
       url:
@@ -179,7 +179,7 @@ attach
         "v3/company/" +
         req.body.companyIDToken.split(":")[0] +
         //companyID + //"/companyinfo/" + companyID
-        "/query?query=select * from CompanyInfo",
+        "/query?query=SELECT * FROM CompanyInfo",
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -224,7 +224,7 @@ attach
     const companyID = req.body.companyIDToken.split(":")[0];
 
     const selectAccount =
-      "select * from Account where " +
+      "SELECT * FROM Account WHERE " +
       "Metadata.CreateTime > '2014-12-31' AND AccountType = 'Expense'";
     const accounts = await oauthClient.makeApiCall({
       url:
@@ -248,7 +248,7 @@ attach
         error: "no go accounts by oauth"
       });
     const selectVendor =
-      "select * from vendor where Metadata.CreateTime > '2014-12-31'";
+      "SELECT * FROM vendor WHERE Metadata.CreateTime > '2014-12-31'";
     const vendors = await oauthClient.makeApiCall({
       url:
         url +
@@ -271,7 +271,7 @@ attach
         error: "no go vendors by oauth"
       });
     const selectCustomer =
-      "select * from Customer where Metadata.CreateTime > '2014-12-31'";
+      "SELECT * FROM Customer WHERE Metadata.CreateTime > '2014-12-31'";
     const customers = await oauthClient.makeApiCall({
       url:
         url +
@@ -530,7 +530,7 @@ attach
     const companyID = req.body.companyIDToken.split(":")[0];
 
     const selectPurchases =
-      "select * from Purchase where " +
+      "SELECT * FROM Purchase WHERE " +
       `Metadata.CreateTime > '${req.body.start_date}' AND Metadata.CreateTime < '${req.body.end_date}'`;
     const purchases = await oauthClient.makeApiCall({
       url:
