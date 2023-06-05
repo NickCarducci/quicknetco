@@ -197,7 +197,7 @@ attach
     const oauthClient = new OAuthClient({
       clientId: process.env.QBA_ID,
       clientSecret: process.env.QBA_SECRET,
-      environment: "sandbox",
+      environment: "production",
       redirectUri: origin //"https://scopes.cc"
       //logging: true
     });
@@ -242,7 +242,7 @@ attach
     const oauthClient = new OAuthClient({
       clientId: process.env.QBA_ID,
       clientSecret: process.env.QBA_SECRET,
-      environment: "sandbox",
+      environment: "production",
       redirectUri: origin //"https://scopes.cc"
       //logging: true
     });
@@ -296,7 +296,7 @@ attach
     const oauthClient = new OAuthClient({
       clientId: process.env.QBA_ID,
       clientSecret: process.env.QBA_SECRET,
-      environment: "sandbox",
+      environment: "production",
       redirectUri: origin //"https://scopes.cc"
       //logging: true
     });
@@ -345,7 +345,7 @@ attach
     const oauthClient = new OAuthClient({
       clientId: process.env.QBA_ID,
       clientSecret: process.env.QBA_SECRET,
-      environment: "sandbox",
+      environment: "production",
       redirectUri: origin //"https://scopes.cc"
       //logging: true
     });
@@ -442,7 +442,7 @@ attach
     const oauthClient = new OAuthClient({
       clientId: process.env.QBA_ID,
       clientSecret: process.env.QBA_SECRET,
-      environment: "sandbox",
+      environment: "production",
       redirectUri: origin //"https://scopes.cc"
       //logging: true
     });
@@ -494,7 +494,7 @@ attach
     const oauthClient = new OAuthClient({
       clientId: process.env.QBA_ID,
       clientSecret: process.env.QBA_SECRET,
-      environment: "sandbox",
+      environment: "production",
       redirectUri: origin //"https://scopes.cc"
       //logging: true
     });
@@ -533,7 +533,7 @@ attach
 
     const configuration = new Configuration({
       basePath: req.body.subscriptionId
-        ? PlaidEnvironments.production
+        ? PlaidEnvironments.development
         : PlaidEnvironments.sandbox,
       baseOptions: {
         headers: {
@@ -591,7 +591,7 @@ attach
 
     const configuration = new Configuration({
       basePath: req.body.subscriptionId
-        ? PlaidEnvironments.production
+        ? PlaidEnvironments.development
         : PlaidEnvironments.sandbox,
       baseOptions: {
         headers: {
@@ -628,7 +628,7 @@ attach
 
     const configuration = new Configuration({
       basePath: req.body.subscriptionId
-        ? PlaidEnvironments.production
+        ? PlaidEnvironments.development
         : PlaidEnvironments.sandbox,
       baseOptions: {
         headers: {
@@ -653,7 +653,7 @@ attach
     const oauthClient = new OAuthClient({
       clientId: process.env.QBA_ID,
       clientSecret: process.env.QBA_SECRET,
-      environment: "sandbox",
+      environment: "production",
       redirectUri: origin //"https://scopes.cc"
       //logging: true
     });
@@ -707,7 +707,7 @@ attach
 
     const configuration = new Configuration({
       basePath: req.body.subscriptionId
-        ? PlaidEnvironments.production
+        ? PlaidEnvironments.development
         : PlaidEnvironments.sandbox,
       baseOptions: {
         headers: {
@@ -748,7 +748,7 @@ attach
 
     const configuration = new Configuration({
       basePath: req.body.subscriptionId
-        ? PlaidEnvironments.production
+        ? PlaidEnvironments.development
         : PlaidEnvironments.sandbox,
       baseOptions: {
         headers: {
