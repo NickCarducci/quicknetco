@@ -538,7 +538,9 @@ attach
       baseOptions: {
         headers: {
           "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-          "PLAID-SECRET": process.env.PLAID_SECRET,
+          "PLAID-SECRET": req.body.subscriptionId
+            ? process.env.PLAID_SECRET
+            : process.env.PLAID_SECRET_DEV,
           "Plaid-Version": "2020-09-14"
         }
       }
@@ -596,7 +598,9 @@ attach
       baseOptions: {
         headers: {
           "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-          "PLAID-SECRET": process.env.PLAID_SECRET,
+          "PLAID-SECRET": req.body.subscriptionId
+            ? process.env.PLAID_SECRET
+            : process.env.PLAID_SECRET_DEV,
           "Plaid-Version": "2020-09-14"
         }
       }
@@ -633,7 +637,9 @@ attach
       baseOptions: {
         headers: {
           "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-          "PLAID-SECRET": process.env.PLAID_SECRET,
+          "PLAID-SECRET": req.body.subscriptionId
+            ? process.env.PLAID_SECRET
+            : process.env.PLAID_SECRET_DEV,
           "Plaid-Version": "2020-09-14"
         }
       }
@@ -712,7 +718,9 @@ attach
       baseOptions: {
         headers: {
           "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-          "PLAID-SECRET": process.env.PLAID_SECRET,
+          "PLAID-SECRET": req.body.subscriptionId
+            ? process.env.PLAID_SECRET
+            : process.env.PLAID_SECRET_DEV,
           "Plaid-Version": "2020-09-14"
         }
       }
@@ -753,7 +761,9 @@ attach
       baseOptions: {
         headers: {
           "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-          "PLAID-SECRET": process.env.PLAID_SECRET,
+          "PLAID-SECRET": req.body.subscriptionId
+            ? process.env.PLAID_SECRET
+            : process.env.PLAID_SECRET_DEV,
           "Plaid-Version": "2020-09-14"
         }
       }
