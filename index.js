@@ -1,6 +1,6 @@
 const { Configuration, PlaidApi, PlaidEnvironments } = require("plaid");
 require("dotenv").config();
-const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
+const stripe = require("stripe")(process.env.STRIPE_SECRET); //("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
 const OAuthClient = require("intuit-oauth"),
   port = 8080,
@@ -97,6 +97,30 @@ const nonbody = express
   .get("/", (req, res) => res.status(200).send("shove it"))
   .options("/*", preflight);
 attach
+  .post("/deletesubscription", async (req, res) => {
+    var origin = refererOrigin(req, res);
+    if (!req.body || allowOriginType(origin, res))
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        progress: "yet to surname factor digit counts.."
+      });
+
+    const subscription = await stripe.subscriptions.cancel(
+      req.body.subscriptionId
+    );
+    if (!subscription.id)
+      return RESSEND(res, {
+        statusCode,
+        statusText,
+        error: "no go subscription delete"
+      });
+    RESSEND(res, {
+      statusCode,
+      statusText,
+      subscription
+    });
+  })
   .post("/subscribe", async (req, res) => {
     var origin = refererOrigin(req, res);
     if (!req.body || allowOriginType(origin, res))
