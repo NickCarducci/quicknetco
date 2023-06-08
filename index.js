@@ -369,7 +369,8 @@ attach
 
     //"Using iterators to page through results"
     const selectAccount =
-      "select * from Account maxresults 60 iterator " + req.body.offset; //where Metadata.CreateTime > '2014-12-31'"; // AND Classification = 'Expense'";
+      "select * from Account maxresults 60" +
+      (req.body.iteratorId ? " iterator " + req.body.iteratorId : ""); //where Metadata.CreateTime > '2014-12-31'"; // AND Classification = 'Expense'";
     const accounts = await oauthClient.makeApiCall({
       url:
         url +
@@ -393,11 +394,12 @@ attach
       });
 
     /*"select * from vendor " +
-      "order by Metadata.CreateTime offset " +
-      60 * req.body.offset +
+      "order by Metadata.CreateTime iteratorId " +
+      60 * req.body.iteratorId +
       " rows";*/
     const selectVendor =
-      "select * from vendor maxresults 60 iterator " + req.body.offset; // where Metadata.CreateTime > '2014-12-31'";
+      "select * from vendor maxresults 60" +
+      (req.body.iteratorId ? " iterator " + req.body.iteratorId : ""); // where Metadata.CreateTime > '2014-12-31'";
     const vendors = await oauthClient.makeApiCall({
       url:
         url +
@@ -420,7 +422,8 @@ attach
         error: "no go vendors by oauth"
       });
     const selectCustomer =
-      "select * from Customer maxresults 60 iterator " + req.body.offset; // where Metadata.CreateTime > '2014-12-31'";
+      "select * from Customer maxresults 60" +
+      (req.body.iteratorId ? " iterator " + req.body.iteratorId : ""); // where Metadata.CreateTime > '2014-12-31'";
     const customers = await oauthClient.makeApiCall({
       url:
         url +
