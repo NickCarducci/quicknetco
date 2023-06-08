@@ -371,7 +371,7 @@ attach
     const selectAccount =
       "select * from Account order by Id startposition " +
       req.body.offset +
-      " maxresults 60";
+      " maxresults 1000";
     //(req.body.iteratorId ? " iterator " + req.body.iteratorId : ""); //where Metadata.CreateTime > '2014-12-31'"; // AND Classification = 'Expense'";
     const accounts = await oauthClient.makeApiCall({
       url:
@@ -402,7 +402,7 @@ attach
     const selectVendor =
       "select * from vendor order by Id startposition " +
       req.body.offset +
-      " maxresults 60";
+      " maxresults 1000";
     const vendors = await oauthClient.makeApiCall({
       url:
         url +
@@ -427,7 +427,7 @@ attach
     const selectCustomer =
       "select * from Customer order by Id startposition " +
       req.body.offset +
-      " maxresults 60";
+      " maxresults 1000";
     const customers = await oauthClient.makeApiCall({
       url:
         url +
