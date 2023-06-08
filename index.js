@@ -369,7 +369,7 @@ attach
 
     //"Using iterators to page through results"
     const selectAccount =
-      "select * from Account startposition " +
+      "select * from Account order by Id startposition " +
       req.body.offset +
       " maxresults 60";
     //(req.body.iteratorId ? " iterator " + req.body.iteratorId : ""); //where Metadata.CreateTime > '2014-12-31'"; // AND Classification = 'Expense'";
@@ -400,7 +400,7 @@ attach
       60 * req.body.iteratorId +
       " rows";*/
     const selectVendor =
-      "select * from vendor startposition " +
+      "select * from vendor order by Id startposition " +
       req.body.offset +
       " maxresults 60";
     const vendors = await oauthClient.makeApiCall({
@@ -425,7 +425,7 @@ attach
         error: "no go vendors by oauth"
       });
     const selectCustomer =
-      "select * from Customer startposition " +
+      "select * from Customer order by Id startposition " +
       req.body.offset +
       " maxresults 60";
     const customers = await oauthClient.makeApiCall({
