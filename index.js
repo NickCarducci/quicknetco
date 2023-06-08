@@ -106,9 +106,11 @@ attach
         progress: "yet to surname factor digit counts.."
       });
 
-    const subscription = await stripe.subscriptions.cancel(
-      req.body.subscriptionId
-    );
+    const subscription = await stripe.subscriptions
+      .cancel(req.body.subscriptionId)
+      .catch((e) => {
+        standardCatch(res, e, {}, "subscription (delete callback)");
+      });
     if (!subscription.id)
       return RESSEND(res, {
         statusCode,
@@ -131,33 +133,41 @@ attach
       });
 
     // create a stripe customer
-    const customer = await stripe.customers.create({
-      name: req.body.name,
-      email: req.body.email,
-      payment_method: req.body.paymentMethod,
-      invoice_settings: {
-        default_payment_method: req.body.paymentMethod
-      }
-    });
+    const customer = await stripe.customers
+      .create({
+        name: req.body.name,
+        email: req.body.email,
+        payment_method: req.body.paymentMethod,
+        invoice_settings: {
+          default_payment_method: req.body.paymentMethod
+        }
+      })
+      .catch((e) => {
+        standardCatch(res, e, {}, "customer (create callback)");
+      });
 
     // get the price id from the front-end
     const priceId = req.body.priceId;
 
     // create a stripe subscription
-    const subscription = await stripe.subscriptions.create({
-      customer: customer.id,
-      items: [{ price: priceId }],
-      payment_settings: {
-        payment_method_options: {
-          card: {
-            request_three_d_secure: "any"
-          }
+    const subscription = await stripe.subscriptions
+      .create({
+        customer: customer.id,
+        items: [{ price: priceId }],
+        payment_settings: {
+          payment_method_options: {
+            card: {
+              request_three_d_secure: "any"
+            }
+          },
+          payment_method_types: ["card"],
+          save_default_payment_method: "on_subscription"
         },
-        payment_method_types: ["card"],
-        save_default_payment_method: "on_subscription"
-      },
-      expand: ["latest_invoice.payment_intent"]
-    });
+        expand: ["latest_invoice.payment_intent"]
+      })
+      .catch((e) => {
+        standardCatch(res, e, {}, "subscription (create callback)");
+      });
     /*const configuration = new Configuration({
       basePath: PlaidEnvironments.sandbox,
       baseOptions: {
