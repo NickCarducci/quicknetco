@@ -367,8 +367,9 @@ attach
         : OAuthClient.environment.production;
     const companyID = req.body.companyIDToken.split(":")[0];
 
+    //"Using iterators to page through results"
     const selectAccount =
-      "select * from Account maxresults " + req.body.maxResults; //where Metadata.CreateTime > '2014-12-31'"; // AND Classification = 'Expense'";
+      "select * from Account maxresults 60 iterator " + req.body.offset; //where Metadata.CreateTime > '2014-12-31'"; // AND Classification = 'Expense'";
     const accounts = await oauthClient.makeApiCall({
       url:
         url +
@@ -396,7 +397,7 @@ attach
       60 * req.body.offset +
       " rows";*/
     const selectVendor =
-      "select * from vendor maxresults " + req.body.maxResults; // where Metadata.CreateTime > '2014-12-31'";
+      "select * from vendor maxresults 60 iterator " + req.body.offset; // where Metadata.CreateTime > '2014-12-31'";
     const vendors = await oauthClient.makeApiCall({
       url:
         url +
@@ -419,7 +420,7 @@ attach
         error: "no go vendors by oauth"
       });
     const selectCustomer =
-      "select * from Customer maxresults " + req.body.maxResults; // where Metadata.CreateTime > '2014-12-31'";
+      "select * from Customer maxresults 60 iterator " + req.body.offset; // where Metadata.CreateTime > '2014-12-31'";
     const customers = await oauthClient.makeApiCall({
       url:
         url +
