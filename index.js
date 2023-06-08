@@ -111,7 +111,7 @@ attach
       .catch((e) => {
         standardCatch(res, e, {}, "subscription (delete callback)");
       });
-    if (!subscription.id)
+    if (!subscription)
       return RESSEND(res, {
         statusCode,
         statusText,
