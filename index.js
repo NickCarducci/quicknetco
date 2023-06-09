@@ -117,6 +117,32 @@ attach
         statusText,
         error: "no go subscription delete"
       });
+    const configuration = new Configuration({
+      basePath: req.body.subscriptionId
+        ? PlaidEnvironments.development
+        : PlaidEnvironments.sandbox,
+      baseOptions: {
+        headers: {
+          "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
+          "PLAID-SECRET": req.body.subscriptionId
+            ? process.env.PLAID_SECRET
+            : process.env.PLAID_SECRET_DEV,
+          "Plaid-Version": "2020-09-14"
+        }
+      }
+    });
+    const plaidClient = new PlaidApi(configuration);
+    req.body.access_tokens.forEach(async (access_token) => {
+      const remove_response = await plaidClient.itemRemove({
+        access_token
+      });
+      if (!remove_response)
+        return RESSEND(res, {
+          statusCode,
+          statusText,
+          error: "no go remove_response delete"
+        });
+    });
     RESSEND(res, {
       statusCode,
       statusText,
@@ -428,6 +454,7 @@ attach
       "select * from Customer order by Id startposition " +
       req.body.offset +
       " maxresults 1000";
+    //https://help.developer.intuit.com/s/question/0D5G000004Dk6tOKAR/why-select-from-invoice-where-id-46-startposition-0-maxresults-5002-got-validationexception-invalid-query-any-help-appreciated
     const customers = await oauthClient.makeApiCall({
       url:
         url +
@@ -639,7 +666,7 @@ attach
       return RESSEND(res, {
         statusCode,
         statusText,
-        error: "no go transactionsGet by plaidClient"
+        error: "no go access_token by plaidClient"
       });
     RESSEND(res, {
       statusCode,
