@@ -189,6 +189,7 @@ attach
           payment_method_types: ["card"],
           save_default_payment_method: "on_subscription"
         },
+        cancel_at_period_end: false,
         expand: ["latest_invoice.payment_intent"]
       })
       .catch((e) => {
